@@ -14,9 +14,11 @@ module ItaxCode
         !blank?(obj)
       end
 
-      def slugged(string)
-        transliterated = transliterate(string.downcase.strip)
-        transliterated.gsub(/[^\w-]+/, "-").gsub(/-{2,}/, "-").gsub(/^-+|-+$/, "")
+      def slugged(string, concise: false)
+        output = transliterate(string.downcase.strip)
+        output = output.gsub(/\b[a-z]{1,3}\b/, "") if concise
+        output = output.gsub(/[^\w-]+/, "-").gsub(/-{2,}/, "-").gsub(/^-+|-+$/, "")
+        output
       end
 
       def transliterate(string)
