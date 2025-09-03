@@ -78,7 +78,8 @@ module ItaxCode
       def encode_birthplace(src = utils.cities, stop: false)
         lookup_key = birthplace.match?(/^\w{1}\d{3}$/) ? "code" : "name"
         place_slug = utils.slugged(birthplace, concise: true)
-        place_item = src.find { |i| place_slug == utils.slugged(i[lookup_key], concise: true) }
+        place_items = src.select { |i| place_slug == utils.slugged(i[lookup_key], concise: true) }
+        place_item = place_items.last if place_items.any?
 
         code = place_item&.[]("code")
         return code if utils.present?(code)
