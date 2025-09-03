@@ -16,7 +16,7 @@ module ItaxCode
 
       def slugged(string, concise: false)
         output = transliterate(string.downcase.strip)
-        output = output.gsub(/\b[a-z]{1,3}\b/, "") if concise
+        output = output.gsub(/\s([a-z]{1,2})\s|(\s[a-z]{1,3}('|`))/, " ").strip.gsub(/\s{2,}/, " ") if concise
         output = output.gsub(/[^\w-]+/, "-").gsub(/-{2,}/, "-").gsub(/^-+|-+$/, "")
         output
       end
